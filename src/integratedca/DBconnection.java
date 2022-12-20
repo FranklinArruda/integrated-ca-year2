@@ -78,56 +78,55 @@ public class DBconnection {
             if ((name.equals("CCT")) && (userPass.equals(pass)) && (email.contains("@admin.com"))) { 
                 
                 //ADMIN MENU
-            System.out.println("\n");
-            System.out.println("ID: "+ id);
-            System.out.println("Username: " + userNm);
-            System.out.println("Email: " + email);
-            System.out.println("------------------------------");
-            System.out.println("Logged-in Successfully");
-            System.out.println("Welcome," + userNm);
-            System.out.println("What would like to be doing today:");
-            System.out.println("Please Enter: " + "\n");
-            System.out.println("1: Modify your Profile");
-            System.out.println("2: Access list of Users");
-            System.out.println("3: Remove other Users");
-            System.out.println("4: Review the operations performed by other Users");
+                System.out.println("\n");
+                System.out.println("ID: "+ id);
+                System.out.println("Username: " + userNm);
+                System.out.println("Email: " + email);
+                System.out.println("------------------------------");
+                System.out.println("Logged-in Successfully");
+                System.out.println("Welcome " + userNm + ",");
+                System.out.println("What would like to be doing today:");
+                System.out.println("Please Enter: " + "\n");
+                System.out.println("1: Modify your Profile");
+                System.out.println("2: Access list of Users");
+                System.out.println("3: Remove other Users");
+                System.out.println("4: Review the operations performed by other Users");
             
-            int option = Integer.parseInt(myKeyboard.readLine().trim()); // converting int to string and REMOVES SPACE
+                int option = Integer.parseInt(myKeyboard.readLine().trim()); // converting int to string and REMOVES SPACE
 
             // SWITCH statement validation for the ADMIN USER
             switch (option) {
                 case 1:
                     Admin modifyAdminProfile = new Admin(); // Call Update() method
-                    modifyAdminProfile.Update("", "", "");
+                    modifyAdminProfile.Update();
                     break;
 
                 case 2:
-                    Admin remove = new Admin(); // Call remove() method
-                    remove.removeUser("", "", "");
+                   // Admin remove = new Admin(); // Call remove() method
+                  //  remove.removeUser("", "", "");
                     break;
 
                 case 3:
-                    Admin listUser = new Admin(); // Call userList() method
-                    listUser.listOfUser("", "", "");
+                    //Admin listUser = new Admin(); // Call userList() method
+                    //listUser.listOfUser("", "", "");
                     break;
 
                 case 4:
-                    Admin history = new Admin(); // Call history() method
-                    history.userHistory("", "", "");
+                    //Admin history = new Admin(); // Call history() method
+                    //history.userHistory("", "", "");
                     break;
                 default:// Do nothing          
             }
         }  
-            
             
             else if ((name.equals(userNm)) && (userPass.equals(pass))){ 
             
             //REGULAR MENU
             System.out.println("\n");
             System.out.println("Logged-in Successfully");
-            System.out.println("Welcome, " + name);
-            System.out.println("------------------------------" + "\n");
+            System.out.println("Welcome " + name + ", ");
             System.out.println("What would like to be doing today:");
+            System.out.println("------------------------------");
             System.out.println("Please Enter: " + "\n");
             System.out.println("1: Modify your Profile");
             System.out.println("2: Solve System of Equations");
@@ -138,7 +137,7 @@ public class DBconnection {
             switch (optionII) {
                 case 1:
                     Admin modifyRegularUserProfile = new Admin(); // Call Update() method
-                    modifyRegularUserProfile.Update("", "", "");
+                    modifyRegularUserProfile.Update();
                     break;
 
                 case 2:
@@ -149,6 +148,9 @@ public class DBconnection {
             }
            
         }
+                else{System.out.println("USER NOT VALID!!!");
+
+                }
     }
 
 }

@@ -4,17 +4,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 
-
+/**
+ * @author name: Franklin Arruda Cirino
+ * Student Number: 2021368
+ * GitHub link:  
+ */
 public class IntegratedCA {
-
-    static DBconnection db; //DBconnection class has to be global so I can use it everyhwere 
-
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
- int userChoice = 0; // Gets user input
-
-        BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Hello there!");
-        System.out.println("Please," + "\n");
+        
+            int userChoice = 0; // Gets user input
+            BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Hello there!");
+            System.out.println("Please," + "\n");
         do {
             System.out.println("Enter 1 to login : ");
             System.out.println("Enter 2 to sign-up : ");

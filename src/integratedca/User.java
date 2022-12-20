@@ -1,5 +1,4 @@
 package integratedca;
-
 import static integratedca.DBconnection.DB_NAME;
 import static integratedca.DBconnection.TB_NAME;
 import java.io.BufferedReader;
@@ -30,10 +29,9 @@ public class User {
      * @throws ClassNotFoundException
      */
     public boolean registerUser() throws SQLException, IOException, ClassNotFoundException {
-
-        
+            
             BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
-            String firstName = "", surName = "", email_ = "", pass="";
+            String firstName = "", surName = "", userEmail = "", pass="";
 
             // Setting First Name
             System.out.print("Enter your First Name : ");
@@ -45,7 +43,7 @@ public class User {
 
             // Setting email
             System.out.print("Create your email : ");
-            email_ = kb.readLine();
+            userEmail = kb.readLine();
 
             // Setting password
             System.out.print("Choose your password : ");
@@ -58,39 +56,36 @@ public class User {
             conn = DBconnection.connect(); // Calling the Connection
         
             // Select satatment to query where user and pass is located
-            String select = "SELECT * FROM " + TB_NAME + " WHERE name = '" + firstName +"' AND surname = '" + surName + "'";
+            String select = "SELECT * FROM " + TB_NAME + " WHERE email = '" + userEmail + "'";
             stmt = conn.prepareStatement(select);
             results = stmt.executeQuery();
             
             // Variables out of SCOPE while loop to be validated, then initialized within loop as follow
             String email="";
-            String first_name = "";
-            String sur_name ="";
             
         // Reads from databse and check whether user exists or not
         while (results.next()){
-            email = results.getString(1);
-            first_name = results.getString(2);
-            sur_name = results.getString(3);
+            email = results.getString(4);
             }
         
-        //checking the user surname is == to surname ok
-        //if doesn't match add user, if exists choose a different user
-        if (!first_name.equals(firstName) && (!sur_name.equals(surName))) {
+        //checking the user user email 
+        //if doesn't match add email, if exists choose a different email
+        if (!userEmail.equals(email)){
             
             // Creating template for query the database
             stmt.executeUpdate("INSERT INTO " + TB_NAME + " (email, name, password, surName) "
-          +"VALUES ('" + email_ +"', '" + firstName +"', '" + pass +"', '" + surName +"')");
-           
-               System.out.println("User details Added Successfully");
+                   +"VALUES ('" + userEmail +"', '" + firstName +"', '" + pass +"', '" + surName +"')");
+    
+                // if successfull
+                System.out.println("User details Added Successfully");
                 
+                // Template
                 ResultSet rs = stmt.executeQuery("SELECT * FROM " + DB_NAME + "." + TB_NAME + ";");
                 
                 // Stores data from database so I can use to manipulate while coding
-                String email2 ="";
-                String first_name2="";
+                String email2 = "";
+                String first_name2 = "";
                 
-               
             while (rs.next()) {
                 email2=rs.getString(1);
                 first_name2=rs.getString(2);
@@ -101,8 +96,7 @@ public class User {
             }
             else {
                 System.out.println("Username Already Taken");
-            }             
-            
+            }                
       return false;
     }
    } 

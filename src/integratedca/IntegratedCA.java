@@ -15,10 +15,11 @@ public class IntegratedCA {
             int userChoice = 0; // Gets user input
             BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Hello there!");
-            System.out.println("Please," + "\n");
+            System.out.println("Please Enter: ");
+            System.out.println("------------");
         do {
-            System.out.println("Enter 1 to login : ");
-            System.out.println("Enter 2 to sign-up : ");
+            System.out.println("1: LOGIN");
+            System.out.println("2: REGISTER ");
             try {
                 userChoice = Integer.parseInt(kb.readLine().trim()); // converting int to string and REMOVES SPACE
             } catch (Exception e) {

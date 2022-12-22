@@ -33,163 +33,163 @@ public class DBconnection {
       return conn;
    }
 
-   /**
-    * Set up connection and create template that query the database While loop
-    * that reads record from DB and returns values
-    * from database correctly
-    * @throws SQLException
-    * @throws ClassNotFoundException
-    * @throws IOException 
-    */
-   public void Login() throws SQLException, ClassNotFoundException, IOException {
+        /**
+         * Set up connection and create template that query the database While loop
+         * that reads record from DB and returns values
+         * from database correctly
+         * @throws SQLException
+         * @throws ClassNotFoundException
+         * @throws IOException 
+         */
+        public void Login() throws SQLException, ClassNotFoundException, IOException {
 
-      BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
+           BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
 
-      System.out.print("Enter Username : ");
-      String userName = kb.readLine().trim();
+           System.out.print("Enter Username : ");
+           String userName = kb.readLine().trim();
 
-      System.out.print("Enter your Password : ");
-      String pass = kb.readLine().trim();
+           System.out.print("Enter your Password : ");
+           String pass = kb.readLine().trim();
 
-      //prepared stmt
-      PreparedStatement stmt = null;
-      ResultSet results = null;
-      conn = DBconnection.connect(); // Calling the Connection
+           //prepared stmt
+           PreparedStatement stmt = null;
+           ResultSet results = null;
+           conn = DBconnection.connect(); // Calling the Connection
 
-      //Querying records
-      //String SQL = "SELECT * FROM " + DB_NAME + "." + TB_NAME + ";";
-      String SQL = "SELECT * FROM " + TB_NAME + " WHERE name='" + userName + "' and password = '" + pass + "'";
-      //String select = "SELECT * FROM " + TB_NAME + " WHERE name = '" + name +"' AND password = '" + pass + "'";
-      stmt = conn.prepareStatement(SQL);
-      results = stmt.executeQuery();
+           // Template to get data values from DB and validate LOGIN
+           String SQL = "SELECT * FROM " + TB_NAME + " WHERE name='" + userName + "' AND password = '" + pass + "'";
+           stmt = conn.prepareStatement(SQL);
+           results = stmt.executeQuery();
 
-      // Variables out of SCOPE while loop to be validated with if else, then initialize within loop as follow
-      int id = 0;
-      String userNm = "";
-      String surNm = "";
-      String email = "";
-      String userPass = "";
+           // Variables out of SCOPE while loop to be validated with if else, then initialize within loop as follow
+           int id = 0;
+           String userNm = "";
+           String surNm = "";
+           String email = "";
+           String userPass = "";
 
-      // Reads from databse and check whether user email exists or not
-      while (results.next()) {
-         id = results.getInt(1);
-         userNm = results.getString(2);
-         surNm = results.getString(3);
-         email = results.getString(4);
-         userPass = results.getString(5);
-      }
-      if ((userNm.equals(userName) && (email.contains("@admin")))) { /// YOU ARE DOING SOMETHING WRONG be careful on this line
-         //ADMIN MENU
-         System.out.println("\n");
-         System.out.println("Admin Logged-in Successfully!!!" + "\n");
-         System.out.println("WELCOME " + userNm + ",");
-         System.out.println("What would like to be doing today?");
-         System.out.println("Please select:");
-         System.out.println("-----------------");
-         System.out.println("1: Modify your Profile");
-         System.out.println("2: Access list of Users");
-         System.out.println("3: Remove other Users");
-         System.out.println("4: Review the operations performed by other Users");
-         System.out.println("5: Sign out");
+           // Reads from databse and check whether user email exists or not
+           while (results.next()) {
+              id = results.getInt(1);
+              userNm = results.getString(2);
+              surNm = results.getString(3);
+              email = results.getString(4);
+              userPass = results.getString(5);
+           }
+           if ((userNm.equals(userName) && (email.contains("@admin")))) { /// YOU ARE DOING SOMETHING WRONG be careful on this line
 
-         int option = Integer.parseInt(kb.readLine().trim()); // converting int to string and REMOVES SPACE
+              //ADMIN MENU
+              System.out.println("Admin Logged-in Successfully!!!" + "\n");
+              System.out.println("WELCOME " + userNm + ",");
+              System.out.println("What would like to be doing today?");
+              System.out.println("Please select:");
+              System.out.println("-----------------");
+              System.out.println("1: Modify your Profile");
+              System.out.println("2: Access list of Users");
+              System.out.println("3: Remove other Users");
+              System.out.println("4: Review the operations performed by other Users");
+              System.out.println("5: Sign out");
 
-         // SWITCH statement validation for the ADMIN USER
-         switch (option) {
-            case 1:
-               Admin modifyAdminProfile = new Admin(); // Call Update() method
-               modifyAdminProfile.Update();
-               break;
+              int option = Integer.parseInt(kb.readLine().trim()); // converting int to string and REMOVES SPACE
 
-            case 2:
-               // Admin remove = new Admin(); // Call remove() method
-               //  remove.removeUser("", "", "");
-               break;
+              // SWITCH statement validation for the ADMIN USER
+              switch (option) {
+                 case 1:
+                    Admin modifyAdminProfile = new Admin(); // Call Update() method
+                    modifyAdminProfile.Update();
+                    break;
 
-            case 3:
-               //Admin listUser = new Admin(); // Call userList() method
-               //listUser.listOfUser("", "", "");
-               break;
+                 case 2:
+                    Admin list = new Admin(); // Call list of users from Admin class 
+                    //list.ListOfUsers();
+                    list.ListOfUsers();
+                    break;
 
-            case 4:
-               //Admin history = new Admin(); // Call history() method
-               //history.userHistory("", "", "");
-               break;
+                 case 3:
+                    // Admin remove = new Admin(); // Call remove() method
+                    //  remove.removeUser("", "", "");
+                    break;
 
-            case 5:
-               System.out.println("Sorry to see you go!");
-               stmt.close(); // closing both connection and statement
-               conn.close();
-               break;
-            default: // Do nothing          
-         }
-      } else if ((userName.equals(userNm))) { // && (userPass.equals(pass))){ 
-         //REGULAR MENU
-         System.out.println("\n");
-         System.out.println("Regular User Logged-in Successfully!!!" + "\n");
-         System.out.println("WELCOME " + userNm + ", ");
-         System.out.println("What would like to be doing today?");
-         System.out.println("Please Select: ");
-         System.out.println("-----------------");
-         System.out.println("1: Modify your Profile");
-         System.out.println("2: Solve System of Equations");
-         System.out.println("3: Sign out");
+                 case 4:
+                    //Admin history = new Admin(); // Call history() method
+                    //history.userHistory("", "", "");
+                    break;
 
-         int optionII = Integer.parseInt(kb.readLine().trim()); // converting int to string and REMOVES SPACE
+                 case 5:
+                    System.out.println("Sorry to see you go!");
+                    stmt.close(); // closing both connection and statement
+                    conn.close();
+                    break;
+                 default: // Do nothing          
+              }
+           } else if ((userName.equals(userNm))) { // && (userPass.equals(pass))){ 
 
-         // SWITCH statement validation for REGULAR USER 
-         switch (optionII) {
-            case 1:
-               Admin modifyRegularUserProfile = new Admin(); // Call Update() method
-               modifyRegularUserProfile.Update();
-               break;
+              //REGULAR MENU
+              System.out.println("Regular User Logged-in Successfully!!!" + "\n");
+              System.out.println("WELCOME " + userNm + ", ");
+              System.out.println("What would like to be doing today?");
+              System.out.println("Please Select: ");
+              System.out.println("-----------------");
+              System.out.println("1: Modify your Profile");
+              System.out.println("2: Solve Systems of Equations");
+              System.out.println("3: Sign out");
 
-            case 2:
-               System.out.println("\n");
-               System.out.println("My SINSEREST apologies. I could not manage to finish the whole project in time.");
-               System.out.println("I got stuck while coding and planning for a long period of time and I was not able to Solve the given EQUATIONS.");
-               System.out.println("I appreciate you seeing my project. Please, check all the functionalities.");
-               System.out.println("Now I will have to catch up to do well on the EXAMS!!!");
-               System.out.println("------------------------------------------------------");
-               System.out.println("THANK YOU FOR THE ASSIGNMENT! ");
-               break;
-           
-            case 3:
-               System.out.println("Sorry to see you go!");
-               stmt.close(); // closing both connection and statement
-               conn.close();
-               break;
-            default: // Do nothing           
-         }
+              int optionII = Integer.parseInt(kb.readLine().trim()); // converting int to string and REMOVES SPACE
 
-      } else {
-         System.out.println("\n");
-         System.out.println("Username or Password Invalid");
-         System.out.println("Please Enter: ");
-         System.out.println("-----------------");
-         System.out.println("1: Try again");
-         System.out.println("2: Register");
-         System.out.println("3: Exit");
-         int tryAgain = Integer.parseInt(kb.readLine());
+              // SWITCH statement validation for REGULAR USER 
+              switch (optionII) {
+                 case 1:
+                    Admin modifyRegularUserProfile = new Admin(); // Call Update() method
+                    modifyRegularUserProfile.Update();
+                    break;
 
-         // Case 1 create an object and call REGISTER method
-         // Case 2 a nice message and CLOSE connection as if they are loggin out out of the system
-         switch (tryAgain) {
-            case 1:
-               DBconnection log = new DBconnection();
-               log.Login(); // Call Login() method
-               break;
+                 case 2:
+                    System.out.println("\n");
+                    System.out.println("My SINSEREST apologies. I could not manage to finish the whole project in time.");
+                    System.out.println("I got stuck while coding and planning for a long period of time and I was not able to Solve the given EQUATIONS.");
+                    System.out.println("I appreciate you seeing my project. Please, check all the functionalities.");
+                    System.out.println("Now I will have to catch up to do well on the EXAMS!!!");
+                    System.out.println("Wish you Marry Cristman and a FANTASTIC Happy New Year");
+                    System.out.println("------------------------------------------------------");
+                    System.out.println("THANK YOU FOR THE ASSIGNMENT! 😊 ");
+                    break;
 
-            case 2:
-               User register = new User(); //Create an object of DB class
-               register.registerUser(); // Call registerUser() method
-               break;
+                 case 3:
+                    System.out.println("Sorry to see you go!");
+                    stmt.close(); // closing both connection and statement
+                    conn.close();
+                    break;
+                 default: // Do nothing           
+              }
 
-            case 3:
-               System.out.println("See you Later!!!");
-               break;
-            default: // do nothing
-         }
-      }
-   }
-}
+           } else {
+              System.out.println("\n");
+              System.out.println("Username or Password Invalid");
+              System.out.println("Please Enter: ");
+              System.out.println("-----------------");
+              System.out.println("1: Try again");
+              System.out.println("2: Register");
+              System.out.println("3: Exit");
+              int tryAgain = Integer.parseInt(kb.readLine());
+
+              // Case 1 create an object and call REGISTER method
+              // Case 2 a nice message and CLOSE connection as if they are loggin out out of the system
+              switch (tryAgain) {
+                 case 1:
+                    DBconnection log = new DBconnection();
+                    log.Login(); // Call Login() method
+                    break;
+
+                 case 2:
+                    User register = new User(); //Create an object of DB class
+                    register.registerUser(); // Call registerUser() method
+                    break;
+
+                 case 3:
+                    System.out.println("See you Later!!!");
+                    break;
+                 default: // do nothing
+              }
+           }
+        }
+     }

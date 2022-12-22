@@ -30,7 +30,6 @@ public class IntegratedCA {
             // Will continue looping until user enters either 1 or 2
         } while ((userChoice != 1 && userChoice != 2));
 
-        
         // User Menu
         switch (userChoice) {
             case 1:

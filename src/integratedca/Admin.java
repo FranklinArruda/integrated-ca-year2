@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Admin {
 
@@ -26,7 +29,7 @@ public class Admin {
     * @throws SQLException
     * @throws IOException 
     */
-   public void Update() throws ClassNotFoundException, SQLException, IOException {
+    public void Update() throws ClassNotFoundException, SQLException, IOException {
 
       BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
       int userOption = 0;
@@ -73,8 +76,7 @@ public class Admin {
                      System.out.println("Password doesn't macth, please try again!");
                      check = false;
                   }
-               } while (!pass.equals(confirmPass));
-
+               } while (false);
 
                //Prepared statement 1
                PreparedStatement stmt1 = null;
@@ -126,7 +128,7 @@ public class Admin {
                      // will keep going while either emails doesn't macth or password incorrect
                      // confirm1 will ask the user pass and confirm 2 will holds the value and pass to the template
                      // template will read from database and execute update if pass =ok!
-                  } while (!email.equals(emailConfirm)); //&& (!email.contains("@")));
+                  } while (false); //&& (!email.contains("@")));
 
 
                   //CONFIRM Pass
@@ -230,9 +232,9 @@ public class Admin {
                // CASE 4 > FORCING USER TO SIGN UP SO CHANGES CAN BE DONE...Actually, it is just for testing. If later
                // I try to login once I sigh out and doesn't work I would investigate
             case 4:
-               System.out.println("You must Sign out to changes you have made takes place! ");
+               System.out.println("You must Sign out for the changes you have made takes effect! ");
                System.out.println("Remeber to use your most up to date Credentials...");
-               System.out.println("Please Select");
+               System.out.println("Please Select,");
                System.out.println("-----------------");
                System.out.println("1: Sign out");
                int option = Integer.parseInt(kb.readLine().trim());
@@ -248,5 +250,115 @@ public class Admin {
             default: // Do nothing       
          }
       } while (userOption != 4); // Will keep going while user until user hits 4   
-   }
+  } 
+  
+    /**
+     * List method to retrieve all user from database when retrieved
+     * @return List of Users
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+      public void ListOfUsers() throws SQLException, ClassNotFoundException{
+          
+            PreparedStatement stmt = null;
+            ResultSet results = null;
+            conn = DBconnection.connect(); // Calling the Connection
+            
+            //Template
+            String SQL = "SELECT * FROM " + DB_NAME + "." + TB_NAME + ";";
+            stmt = conn.prepareStatement(SQL);
+            results = stmt.executeQuery();
+
+            int id = 0;
+            String userName = "";
+            String surName = "";
+            String email = "";
+
+            // Link for the following FORMAT I took reference from
+            //https://www.javatpoint.com/how-to-print-table-in-java-using-formatter
+
+            System.out.printf("USERS LIST :    ID    |  First Name   |    Surname   |         Email     |");
+            System.out.println();
+            System.out.println("-------------------------------------------------------------------------");  
+     
+          while (results.next()){ 
+            id = results.getInt(1);
+            userName = results.getString(2);
+            surName = results.getString(3);
+            email = results.getString(4);
+
+            System.out.print("|");
+            System.out.printf("%17s %15s %15s %22s ",id , userName ,surName,email );  
+            System.out.println(); 
+           }
+        }
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * Array list method to store all user from database when retrieved
+     * @return List of Users
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    public List<User> List() throws ClassNotFoundException, SQLException  {
+              
+                // Create an ArrayList object and Assigned the User class as my datatype
+                List<User> listOfUsers = new ArrayList<>(); 
+                
+                //Making connection
+                PreparedStatement stmt = null;
+                ResultSet results = null;
+                
+                // Calling the Connection
+                conn = DBconnection.connect(); 
+
+                //Template that selects all USERS from DB
+                String select = "SELECT * FROM " + DB_NAME + "." + TB_NAME + ";";
+                stmt = conn.prepareStatement(select);
+                results = stmt.executeQuery();
+                
+                //Reading all users from DB and adding into my ArrayList by using the CONSTRUCTOR and getters & setter 
+                // in User class
+                
+                String name="", surnNm="",email="";
+                int id=0;
+                User list = new User(); 
+                while (results.next()) {
+                    
+                    //Object of User so I can actually assigns values into attributes
+                    
+                   
+                    //Storing resultSet into variables
+                    id = results.getInt(1);
+                    name = results.getString(2);
+                    surnNm = results.getString(3);
+                    email = results.getString(4);
+                  
+                       
+                }
+                 // Setting variables into array list using Setters parameters
+                    list.setId(id);
+                    list.setFirstName(name);
+                    list.setSurName(surnNm);
+                    list.setEmail(email);
+                    
+                    listOfUsers.add(list); 
+                    System.out.println(id);
+                    System.out.println(name);
+                    System.out.println(surnNm);
+                    System.out.println(email);
+                 
+                
+                 
+            return listOfUsers;
+            }
 }
+
+        
+

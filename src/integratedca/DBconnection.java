@@ -101,16 +101,18 @@ public class DBconnection {
 
                  case 2:
                     Admin list = new Admin(); // Call list of users from Admin class 
-                    //list.ListOfUsers();
                     list.ListOfUsers();
                     break;
 
                  case 3:
-                    // Admin remove = new Admin(); // Call remove() method
-                    //  remove.removeUser("", "", "");
+                    Admin remove = new Admin(); // Call remove() method
+                    remove.RemoveUser();
                     break;
 
                  case 4:
+                     System.out.println("Soory there is no history of users performed saved as I couldn't finish the project on time");
+                     System.out.println("Thank you for Understanding!");
+                     System.out.println("Franklin");
                     //Admin history = new Admin(); // Call history() method
                     //history.userHistory("", "", "");
                     break;
@@ -149,9 +151,11 @@ public class DBconnection {
                     System.out.println("I got stuck while coding and planning for a long period of time and I was not able to Solve the given EQUATIONS.");
                     System.out.println("I appreciate you seeing my project. Please, check all the functionalities.");
                     System.out.println("Now I will have to catch up to do well on the EXAMS!!!");
-                    System.out.println("Wish you Marry Cristman and a FANTASTIC Happy New Year");
+                    System.out.println("Wish you Marry Christmas and a FANTASTIC Happy New Year");
                     System.out.println("------------------------------------------------------");
-                    System.out.println("THANK YOU FOR THE ASSIGNMENT! 😊 ");
+                    System.out.println("THANK YOU FOR THE ASSIGNMENT! 😊 "+"\n");
+                    System.out.println("Regards,");
+                    System.out.println("Franklin");
                     break;
 
                  case 3:

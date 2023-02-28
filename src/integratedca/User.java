@@ -1,4 +1,5 @@
 package integratedca;
+
 import static integratedca.DBconnection.DB_NAME;
 import static integratedca.DBconnection.TB_NAME;
 import java.io.BufferedReader;
@@ -74,7 +75,6 @@ public class User {
     * Get user input Establishes Connection Create template that select and
     * insert into database While loop that reads from database If else
     * statements to validate whether user is real or not.
-    *
     * @return true if user does not exists in database
     * @returns false if user records exists
     * @throws SQLException
@@ -84,6 +84,7 @@ public class User {
     public boolean registerUser() throws SQLException, IOException, ClassNotFoundException {
 
             BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
+            
             String firstName = "", surName = "", userEmail = "", confirmEmail="", pass = "",passConfirm="";
 
             // Setting First Name
@@ -229,34 +230,7 @@ public class User {
                      System.out.println("See you Later!!!");
                }
             }
-            return false; // 
+            return false; // do nothing  
          }
       }
 
-
-      /*
-          public boolean solveEquation(String name, String email, String password)
-                  throws ClassNotFoundException, SQLException {
-
-              try {
-                  PreparedStatement stmt = null;
-                  ResultSet results;
-
-                  String sql = "UPDATE Registration "
-                          + "SET age = 30 DB_NAME id in (100, 101)";
-                  stmt.executeUpdate(sql);
-                  ResultSet rs = stmt.executeQuery(sql);
-                  while (rs.next()) {
-                      //Display values
-                      System.out.print("ID: " + rs.getInt("id"));
-                      System.out.print(", Age: " + rs.getInt("age"));
-                      System.out.print(", First: " + rs.getString("first"));
-                      System.out.println(", Last: " + rs.getString("last"));
-                  }
-                  rs.close();
-              } catch (SQLException e) {
-                  e.printStackTrace();
-              }
-              return false;
-          }
-      }*/

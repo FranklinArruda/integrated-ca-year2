@@ -1,4 +1,5 @@
 package integratedca;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,14 +15,16 @@ public class DBconnection {
    Connection conn = null;
 
    //Global VARIABLES so I don't have to change values name all the time other than here
-   static final String DB_NAME = "integratedca";
+   static final String DB_NAME = "taxcalculator";
    static final String DATABASE_URL = "jdbc:mysql://localhost/" + DB_NAME;
    static final String USERNAME = "root";
    static final String PASSWORD = "root";
    static final String TB_NAME = "user";
+   static final String TB_NAME_2 = "transactions";
    static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 
    /**
+    * Datatype assigned as its class Connection
     * Static connection so that it can be called everywhere in the program
     * @return connection
     * @throws ClassNotFoundException
@@ -96,7 +99,7 @@ public class DBconnection {
               switch (option) {
                  case 1:
                     Admin modifyAdminProfile = new Admin(); // Call Update() method
-                    modifyAdminProfile.Update();
+                    modifyAdminProfile.TESTING(id);
                     break;
 
                  case 2:
@@ -142,7 +145,7 @@ public class DBconnection {
               switch (optionII) {
                  case 1:
                     Admin modifyRegularUserProfile = new Admin(); // Call Update() method
-                    modifyRegularUserProfile.Update();
+                    modifyRegularUserProfile.TESTING(id);
                     break;
 
                  case 2:

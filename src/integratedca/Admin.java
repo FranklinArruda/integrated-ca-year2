@@ -2,6 +2,7 @@ package integratedca;
 
 import static integratedca.DBconnection.DB_NAME;
 import static integratedca.DBconnection.TB_NAME;
+import static integratedca.DBconnection.TB_NAME_2;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -223,7 +224,7 @@ public class Admin {
                      System.out.println("Sorry!!! Failure to chenge Password. Please try again later...");
                   }
                } catch (Exception e) {
-                  System.out.println("Something went wrong.Please try chenge Password later...");
+                  System.out.println("Something went wrong.Please try change Password later...");
                }
                break;
 
@@ -250,6 +251,7 @@ public class Admin {
          }
       } while (userOption != 4); // Will keep going while user until user hits 4   
   } 
+  
   
     /**
      * List of Users method to retrieve all users from database 
@@ -323,6 +325,7 @@ public class Admin {
         } while(userOption !=2);   
     }
 
+ 
      /**
      * First, the List of users is listed so the user can see who is who and what ID the user hold
      * Remove USERS method by using prepared statement
@@ -335,114 +338,227 @@ public class Admin {
      */
       public void RemoveUser() throws SQLException, ClassNotFoundException, IOException{
         
-        BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
-        int userOption = 0;
-        
-            //Connection
-            PreparedStatement stmt = null;
-            ResultSet results = null;
-            conn = DBconnection.connect(); // Calling the Connection
-        
-            //Showing the Listof USERS FIRST
-            //Template
-            String SQL = "SELECT * FROM " + DB_NAME + "." + TB_NAME + ";";
-            stmt = conn.prepareStatement(SQL);
-            results = stmt.executeQuery();
+            BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
+            int userOption = 0;
 
-            int id = 0;
-            String userName = "";
-            String surName = "";
-            String email = "";
+                //Connection
+                PreparedStatement stmt = null;
+                ResultSet results = null;
+                conn = DBconnection.connect(); // Calling the Connection
 
-            // Link for the following FORMAT I took reference from
-            //https://www.javatpoint.com/how-to-print-table-in-java-using-formatter
+                //Showing the Listof USERS FIRST
+                //Template
+                String SQL = "SELECT * FROM " + DB_NAME + "." + TB_NAME + ";";
+                stmt = conn.prepareStatement(SQL);
+                results = stmt.executeQuery();
 
-            System.out.printf("USERS LIST :    ID    |  First Name   |    Surname   |         Email     |");
-            System.out.println();
-            System.out.println("-------------------------------------------------------------------------");  
+                int id = 0;
+                String userName = "";
+                String surName = "";
+                String email = "";
 
-            while (results.next()){ 
-              id = results.getInt(1);
-              userName = results.getString(2);
-              surName = results.getString(3);
-              email = results.getString(4);
+                // Link for the following FORMAT I took reference from
+                //https://www.javatpoint.com/how-to-print-table-in-java-using-formatter
 
-              System.out.print("|");
-              System.out.printf("%17s %15s %15s %22s ",id , userName ,surName,email );  
-              System.out.println(); 
-              }  
-        
-            //CODE to delete the user
-        do { 
-            System.out.println("Please Enter :");
-            System.out.println("-----------------------");
-            System.out.println("1: Remove Users");
-            System.out.println("2: Exit");
-            userOption = Integer.parseInt(kb.readLine().trim()); // converting int to string and REMOVES SPACE
-                
-                switch(userOption){
-                    case 1:
-                         int userID = 0; //Store users ID 
-                        //repeat until user enters a number greater than 0
-                while (userID < 1){
-                    try { 
-                        System.out.println("Please enter the USER ID number you would like to DELETE");
-                        userID = Integer.parseInt(kb.readLine()); //reads number from keyboard
+                System.out.printf("USERS LIST :    ID    |  First Name   |    Surname   |         Email     |");
+                System.out.println();
+                System.out.println("-------------------------------------------------------------------------");  
 
-                        // if user input is greater than 0 this code will be executed
-                        if (userID>0){
+                while (results.next()){ 
+                  id = results.getInt(1);
+                  userName = results.getString(2);
+                  surName = results.getString(3);
+                  email = results.getString(4);
 
-                            //TEMPLATE using prapered statement    
-                            String query = "DELETE FROM " + TB_NAME + " WHERE id=?";;
-                            PreparedStatement pstmt = conn.prepareStatement(query);
+                  System.out.print("|");
+                  System.out.printf("%17s %15s %15s %22s ",id , userName ,surName,email );  
+                  System.out.println(); 
+                  }  
 
-                            pstmt.setInt(1,userID);
-                            int deleteCheck = pstmt.executeUpdate();
-                           
-                            // if inside another if statement to validate whether the user has been deleted or not
-                            // will also check if user ID is still exists on the system
-                                if(deleteCheck>0){
-                                    System.out.println("User deleted SUCCESSFULLY!!!"+"\n");
-                                }
-                                else{
-                                    //if failed to delete the user this message will be displayed
-                                    System.out.println("Failed to delete User by ID");
-                                    System.out.println("The user may either not exists on your system or ID selected not valid");
-                                    System.out.println("Please try again!");
-                                }
-                        }
-                        else{
-                            // If user enter 0 will display this message
-                            System.out.println("The USERS IDs starts from 1 onwards. Please choose the Correct ID number!c");                        
-                        }
-                    }
-                    catch(Exception e){
+                //CODE to delete the user
+            do { 
+                System.out.println("Please Enter :");
+                System.out.println("-----------------------");
+                System.out.println("1: Remove Users");
+                System.out.println("2: Exit");
+                userOption = Integer.parseInt(kb.readLine().trim()); // converting int to string and REMOVES SPACE
 
-                        //user did not enter an integer
-                        System.out.println("ONLY Numbers allowed!!!");
-                        kb.readLine(); //Gets rid of the "wrong stuff" on the keyboard
-                    }
-                }// while loop finishes here...   
-                    break;
-                    
-                    case 2:
-                        System.out.println("Please Select,");
-                        System.out.println("-----------------");
-                        System.out.println("1: Sign out");
-                        int option = Integer.parseInt(kb.readLine().trim());
+                    switch(userOption){
+                        case 1:
+                             int userID = 0; //Store users ID 
+                             
+                            //repeat until user enters a number greater than 0
+                    while (userID < 1){
+                        try { 
+                            System.out.println("Please enter the USER ID number you would like to DELETE");
+                            
+                            userID = Integer.parseInt(kb.readLine()); //reads number from keyboard
 
-                            // SWITCH statement to sign out option
-                            switch (option) {
-                               case 1:
-                                  System.out.println("Have a good day!");
-                                  break;
-                               default: // Do nothing
+                            // if user input is greater than 0 this code will be executed
+                            if (userID>0){
+
+                                //TEMPLATE using prapered statement    
+                                String query = "DELETE FROM " + TB_NAME + " WHERE id=?";;
+                                PreparedStatement pstmt = conn.prepareStatement(query);
+
+                                pstmt.setInt(1,userID);
+                                int deleteCheck = pstmt.executeUpdate();
+
+                                // if inside another if statement to validate whether the user has been deleted or not
+                                // will also check if user ID is still exists on the system
+                                    if(deleteCheck>0){
+                                        System.out.println("User deleted SUCCESSFULLY!!!"+"\n");
+                                    }
+                                    else{
+                                        //if failed to delete the user this message will be displayed
+                                        System.out.println("Failed to delete User by ID");
+                                        System.out.println("The user may either not exists on your system or ID selected not valid");
+                                        System.out.println("Please try again!");
+                                    }
                             }
-                     break;
+                            else{
+                                // If user enter 0 will display this message
+                                System.out.println("The USERS IDs starts from 1 onwards. Please choose the Correct ID number!c");                        
+                            }
+                        }
+                        catch(Exception e){
+
+                            //user did not enter an integer
+                            System.out.println("ONLY Numbers allowed!!!");
+                            kb.readLine(); //Gets rid of the "wrong stuff" on the keyboard
+                        }
+                    }// while loop finishes here...   
+                        break;
+
+                        case 2:
+                            System.out.println("Please Select,");
+                            System.out.println("-----------------");
+                            System.out.println("1: Sign out");
+                            int option = Integer.parseInt(kb.readLine().trim());
+
+                                // SWITCH statement to sign out option
+                                switch (option) {
+                                   case 1:
+                                      System.out.println("Have a good day!");
+                                      break;
+                                   default: // Do nothing
+                                }
+                         break;
             }   
         } while(userOption !=2);   
         
      }
+      
+      public void TESTING (int userID) throws IOException, SQLException, ClassNotFoundException{
+      
+          BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
+          
+          /*  Connection conn = null;
+            PreparedStatement preparedStmt = null;
+            ResultSet result = null;
+         /*   
+          System.out.println("ENTER YOUR FIRST NAME");
+            String firstName = kb.readLine();
+            
+            System.out.println("ENTER YOUR LAST NAME");
+            String lastName = kb.readLine();
+            
+            // the mysql insert statement
+            String query = " INSERT INTO " + TB_NAME_2 + " (first_name, last_name)"
+              + " VALUES (?, ?)";
+            
+            // create the mysql insert preparedstatement
+            
+            preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString (1, firstName);
+            preparedStmt.setString (2, lastName);
+            
+          int status = preparedStmt.executeUpdate();
+    
+           
+          // if successfull
+              if(status>0){
+               System.out.println("User details Added Successfully!!!");
+               System.out.println("------------------------------");
+              }
+
+              else{
+                  System.err.println("Failed to insert values. Please try one more time later!!!");
+              } 
+         
+         
+           
+            String SQL = "SELECT * FROM " + DB_NAME + "." + TB_NAME + ";";
+            preparedStmt = conn.prepareStatement(SQL);
+            result = preparedStmt.executeQuery();
+          
+            
+            int ID=0;
+            String FN = "";
+            String LN = "";
+           
+             // Reads from databse and check whether user email exists or not
+           while (result.next()) {
+              ID = result.getInt(1);
+              FN = result.getString(2);
+              LN = result.getString(3);
+              System.out.format("%s, %s, %s\n", ID, FN, LN);
+              
+           }
+           */
+                 System.out.println("ENTER transaciont number 1");
+                double amt = Integer.parseInt(kb.readLine());
+                
+                //Connection
+                PreparedStatement preparedStmt = null;
+                ResultSet results = null;
+                conn = DBconnection.connect(); // Calling the Connection
+
+                // the mysql insert statement
+                String INSERT = " INSERT INTO " + TB_NAME_2 + " (amount, customer_id)"
+              + " VALUES (?, ?)";  
+                
+                // create the mysql insert preparedstatement
+                preparedStmt = conn.prepareStatement(INSERT);
+                preparedStmt.setDouble (1, amt);
+                preparedStmt.setInt (2, userID);
+            
+                int status1 = preparedStmt.executeUpdate();
+    
+           
+          // if successfull
+              if(status1>0){
+               System.out.println("TRANSACTION Added Successfully!!!");
+               System.out.println("------------------------------");
+              }
+
+              else{
+                  System.err.println("Failed to insert values. Please try one more time later!!!");
+              } 
+          
+              
+              String SELECT = "SELECT * FROM " + DB_NAME + "." + TB_NAME_2 + ";";
+            preparedStmt = conn.prepareStatement(SELECT);
+            results = preparedStmt.executeQuery();
+          
+            
+            double transaction_ID=0;
+            int amount=0;
+            int customer_ID=0;
+           
+             // Reads from databse and check whether user email exists or not
+           while (results.next()) {
+              transaction_ID = results.getInt(1);
+               amount = results.getInt(2);
+                customer_ID = results.getInt(3);
+              
+              System.out.format("%s, %s, %s\n", transaction_ID, amount, customer_ID);
+              
+           }
+                             preparedStmt.close(); // closing both
+                             conn.close();
+      
+      }
    }
 
 

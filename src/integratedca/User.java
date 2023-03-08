@@ -19,13 +19,13 @@ public class User {
     private int id;
     
     //Parametised Constructor to add values into the (array list) when Getting LIST OF USERS 
-    public User(String firstName, String surName,String email,String password,int id) {
+    /*public User(String firstName, String surName,String email,String password,int id) {
         this.firstName=firstName;
         this.surName=surName;
         this.email=email;
         this.password=password;
         this.id=id;
-    }
+    }*/
 
     public String getFirstName() {
         return firstName;
@@ -67,6 +67,11 @@ public class User {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "User{" + "firstName=" + firstName + '}';
+    }
+
     public User() {}; // default Construcor
     
     Connection conn = null; // CONNECTION OBJECT
@@ -83,10 +88,14 @@ public class User {
     */
     public boolean registerUser() throws SQLException, IOException, ClassNotFoundException {
 
+       
             BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
             
             String firstName = "", surName = "", userEmail = "", confirmEmail="", pass = "",passConfirm="";
-
+            int id=0;
+            User adduser = new User();
+            
+            adduser.setFirstName(firstName);
             // Setting First Name
             System.out.print("Enter your First Name : ");
             firstName = kb.readLine();
@@ -222,8 +231,8 @@ public class User {
                // Case 2 a nice message and CLOSE connection as if they are loggin out out of the system
                switch (registerUser) {
                   case 1:
-                     User register = new User(); //Create an object of DB class
-                     register.registerUser(); // Call registerUser() method
+                   //  User register = new User(); //Create an object of DB class
+                   //  register.registerUser(); // Call registerUser() method
                      break;
 
                   case 2:

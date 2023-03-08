@@ -22,8 +22,28 @@ import java.util.GregorianCalendar;
 public class IntegratedCA {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
         
+         BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));  
+         String firstName = "", surName = "", userEmail = "", confirmEmail="", pass = "",passConfirm="";
+            int id=0;
+            User adduser = new User();
+            
+            adduser.setFirstName(firstName);
+            // Setting First Name
+            System.out.print("Enter your First Name : ");
+            firstName = kb.readLine();
+            adduser.setFirstName(firstName);
+
+            //works like that
+            System.out.println(adduser.toString());
+            
+            // or only the user object
+            System.out.println(adduser);
+            
+            
+            
+            
             int userChoice = 0; // Gets user input
-            BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));          
+           // BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));          
             
             // getting current time to greeting the user
             GregorianCalendar time = new GregorianCalendar();
@@ -76,8 +96,8 @@ public class IntegratedCA {
                     break;
 
                 case 2:
-                    User register = new User(); //Create an object of DB class
-                    register.registerUser(); // Call registerUser() method
+                  //  User register = new User(); //Create an object of DB class
+                  //  register.registerUser(); // Call registerUser() method
                     break;
                 default:// Do nothing          
         }
